@@ -1,0 +1,12 @@
+{
+  "name": "newmanJenkins",
+  "version": "1.0.0",
+  "description": "Project for storing Postman tests",
+  "scripts": {
+    "Api-test-production": "newman run tests/testCollection.postman_collection.json"
+  },
+  "author": "Gurpreet Singh",
+  "dependencies": {
+    "newman": "^4.6.0"
+  }
+}

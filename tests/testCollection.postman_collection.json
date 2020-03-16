@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "12bd1218-1b1a-4930-9d33-23760913ae3b",
+		"name": "testCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET with URL params",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b65ae904-fcea-4477-ba0d-e1d8adb5d422",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"let jsonData = pm.response.json();",
+							"console.log(jsonData.args.isGood);",
+							"pm.test(\"is Good True?\", function () {",
+							"    pm.expect(jsonData.args.isGood).to.eql(\"true\");",
+							"});",
+							"",
+							"pm.test(\"is Bad False?\", function () {",
+							"    pm.expect(jsonData.args.isBad).to.eql(\"false\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://httpbin.org/get?isGood=true&isBad=false",
+					"protocol": "http",
+					"host": [
+						"httpbin",
+						"org"
+					],
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "isGood",
+							"value": "true"
+						},
+						{
+							"key": "isBad",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
