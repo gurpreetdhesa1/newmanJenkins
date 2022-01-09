@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/")
-public class usersController {
+public class usersController1 {
     @Autowired
     private usersRestRepository repository;
    @GetMapping("/users")
