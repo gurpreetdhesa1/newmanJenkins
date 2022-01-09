@@ -1,0 +1,85 @@
+package Nextuple.com.firstgradle.Controller;
+
+
+import Nextuple.com.firstgradle.Model.users;
+
+import Nextuple.com.firstgradle.Repository.usersRepository;
+import Nextuple.com.firstgradle.Repository.usersRestRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.awt.print.Book;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/v1/")
+public class usersController {
+    @Autowired
+    private usersRestRepository repository;
+   @GetMapping("/users")
+//    public ResponseEntity<List<users>> getAllUsers(){
+//        return ResponseEntity.ok(repository.findAll());
+//
+////    }
+    public List<users> getAllUsers(){
+        return (List<users>) repository.findAll();
+    }
+
+   @GetMapping("users/f")
+   public ResponseEntity<users> getUserByparticularID(@RequestParam(name ="firstName") String firstName){
+       Optional<users> user=repository.findByFirstnameEqualsIgnoreCase(firstName);
+       HttpHeaders header = new HttpHeaders();
+       header.add("description","Users Details");
+       if(user.isEmpty()){
+           throw new RuntimeException("User not found with firstName" + firstName);
+       } else{
+           return ResponseEntity.status(HttpStatus.OK).headers(header).body(user.get());
+       }
+   }
+//   @GetMapping("users/query")
+//   public ResponseEntity<users> getUserByfirstName(@RequestParam(value ="firstName") String firstName){
+//       Optional<users> user=repository.getClass(firstName);
+//       return ResponseEntity.ok(getUserByfirstName(firstName));
+//   }
+
+    @GetMapping("users/{id}")
+    public ResponseEntity<users> getUserByID(@PathVariable Integer id){
+        Optional<users> user=repository.findById(id);
+        HttpHeaders header = new HttpHeaders();
+        header.add("description","Users Details");
+        if(user.isEmpty()){
+            throw new RuntimeException("User not found with id" + id);
+        } else{
+            return ResponseEntity.status(HttpStatus.OK).headers(header).body(user.get());
+       }
+    }
+//    public users getUserById(@PathVariable Integer id){
+//        Optional<users> user= repository.findById(id);
+//        if(user.isEmpty()){
+//            throw new RuntimeException("User not found with id" + id);
+//        } else{
+//            return user.get();
+//        }
+//
+//    }
+
+    @PostMapping("/users")
+    public users CreateUser(@RequestBody users user){
+        return repository.save(user);
+    }
+    @PutMapping("/users")
+    public users UpdateUser(@RequestBody users user){
+        return repository.save(user);
+    }
+    @DeleteMapping("/users")
+    public users DeleteUser(@RequestBody users user){
+         repository.delete(user);
+         return user;
+    }
+
+
+}
